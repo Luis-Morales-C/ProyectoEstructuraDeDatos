@@ -1,5 +1,7 @@
 package Model;
 
+import Utils.TaskQueue;
+
 import java.util.Queue;
 
 public class Activity {
@@ -8,19 +10,26 @@ public class Activity {
     private String description;
     private Boolean obligatory;
 
-    private Queue<Task> tasks;
-    private Activity previous;
-    private Activity next;
+    private TaskQueue<Task> tasks;
 
-    public Activity(String name, String description, Boolean obligatory, Queue<Task> tasks, Activity previous, Activity next) {
+    public Activity(String name, String description, Boolean obligatory) {
         this.name = name;
         this.description = description;
         this.obligatory = obligatory;
-        this.tasks = tasks;
-        this.previous = previous;
-        this.next = next;
+
+    }
+    public Activity(String name){
+        super();
+        this.name=name;
+        obligatory=false;
     }
 
+    //metodos ----------------------------------------------------------------------------------------------------
+
+
+
+
+    //------------------------------------------------------------------------------------------------------------
     public String getName() {
         return name;
     }
@@ -33,16 +42,8 @@ public class Activity {
         return obligatory;
     }
 
-    public Queue<Task> getTasks() {
+    public TaskQueue<Task> getTasks() {
         return tasks;
-    }
-
-    public Activity getPrevious() {
-        return previous;
-    }
-
-    public Activity getNext() {
-        return next;
     }
 
     public void setName(String name) {
@@ -57,15 +58,7 @@ public class Activity {
         this.obligatory = obligatory;
     }
 
-    public void setTasks(Queue<Task> tasks) {
+    public void setTasks(TaskQueue<Task> tasks) {
         this.tasks = tasks;
-    }
-
-    public void setPrevious(Activity previous) {
-        this.previous = previous;
-    }
-
-    public void setNext(Activity next) {
-        this.next = next;
     }
 }

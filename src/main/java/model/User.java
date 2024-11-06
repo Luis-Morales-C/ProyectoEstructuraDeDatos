@@ -3,13 +3,13 @@ package model;
 import java.util.Objects;
 
 public class User {
-    private Usertype userType;
+    private UserType userType;
     private String userName;
     private String pasword;
     private NotificationType notificationType = NotificationType.MAIL;
     private String mail;
 
-    public User(Usertype userType, String userName, String pasword, NotificationType notificationType, String mail) {
+    public User(UserType userType, String userName, String pasword, NotificationType notificationType, String mail) {
         this.userType = userType;
         this.userName = userName;
         this.pasword = pasword;
@@ -17,11 +17,11 @@ public class User {
         this.mail = mail;
     }
 
-    public Usertype getUserType() {
+    public UserType getUserType() {
         return userType;
     }
 
-    public void setUserType(Usertype userType) {
+    public void setUserType(UserType userType) {
         this.userType = userType;
     }
 

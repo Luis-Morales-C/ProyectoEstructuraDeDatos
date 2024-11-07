@@ -136,6 +136,35 @@ public class Tool {
         }
     });
 
+    private void initialistData(){
+
+        User user1 = new User();
+        user1.setUserName("Camilo Sanchez");
+        user1.setPassword("12345");
+        user1.setMail("teo154@outlook.com");
+        user1.setNotificationType(NotificationType.MAIL);
+        user1.setUserType(UserType.ADMINISTRATOR);
+
+        userList.add(user1);
+
+        User user2 = new User();
+        user2.setUserName("Juan Esteban Victoria");
+        user2.setPassword("12344");
+        user2.setMail("juane.victorial@uqvirtual.edu.co");
+        user2.setNotificationType(NotificationType.MAIL);
+        user2.setUserType(UserType.ADMINISTRATOR);
+
+        userList.add(user2);
+
+        User user3 = new User();
+        user3.setUserName("Tatiana Mosquera");
+        user3.setPassword("12355");
+        user3.setMail("");
+        user3.setNotificationType(NotificationType.MAIL);
+        user3.setUserType(UserType.ADMINISTRATOR);
+
+        userList.add(user3);
+    }
 }
 
 

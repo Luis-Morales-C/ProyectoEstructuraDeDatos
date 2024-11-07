@@ -1,4 +1,5 @@
 package model;
 
-public class UserType {
+public enum UserType {
+    ADMINISTRATOR, REGULAR;
 }

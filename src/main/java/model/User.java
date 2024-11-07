@@ -5,14 +5,14 @@ import java.util.Objects;
 public class User {
     private UserType userType;
     private String userName;
-    private String pasword;
+    private String password;
     private NotificationType notificationType = NotificationType.MAIL;
     private String mail;
 
-    public User(UserType userType, String userName, String pasword, NotificationType notificationType, String mail) {
+    public User(UserType userType, String userName, String password, NotificationType notificationType, String mail) {
         this.userType = userType;
         this.userName = userName;
-        this.pasword = pasword;
+        this.password = password;
         this.notificationType = notificationType;
         this.mail = mail;
     }
@@ -33,12 +33,12 @@ public class User {
         this.userName = userName;
     }
 
-    public String getPasword() {
-        return pasword;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPasword(String pasword) {
-        this.pasword = pasword;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public NotificationType getNotificationType() {
@@ -62,12 +62,12 @@ public class User {
         if(this == o ) return true;
         if(o == null || getClass() != o.getClass()) return false;
         User user = (User)o;
-        return userType == user.userType && Objects.equals(userName, user.userName) && Objects.equals(pasword, user.pasword);
+        return userType == user.userType && Objects.equals(userName, user.userName) && Objects.equals(password, user.password);
     }
 
     @Override
     public int hashCode(){
-        return Objects.hash(userType, userName, pasword);
+        return Objects.hash(userType, userName, password);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class User {
         return "Usuario{" +
                 "tipoUsuario=" + userType +
                 ", nombreUsuario='" + userName + '\'' +
-                ", contrasenia='" + pasword + '\'' +
+                ", contrasenia='" + password + '\'' +
                 '}';
     }
 

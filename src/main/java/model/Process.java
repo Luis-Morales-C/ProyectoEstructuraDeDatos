@@ -1,6 +1,9 @@
 package Model;
 
+import java.util.ArrayList;
 import java.util.List;
+import Exception.ActivityAlreadyExistsException;
+import Utils.ShowMessage;
 
 public class Process {
 
@@ -14,10 +17,43 @@ public class Process {
         super();
         this.name= name;
         this.id= id;
+        activities= new ArrayList<>();
+
+    }
+    //Metodos-----------------------------------------------------------------------------------
+
+
+    /**
+     *Metodo que agrega actividades al proceso
+     */
+    public void addActivity(Activity activity)throws ActivityAlreadyExistsException {
+        if(!activities.contains(activity)){
+            activities.add(activity);
+        }else {
+            try {
+                throw new ActivityAlreadyExistsException();
+            }catch (ActivityAlreadyExistsException e){
+                ShowMessage.mostrarMensaje("error","error al agregar una actividad", "la actividad ya existe");
+            }
+        }
 
     }
 
 
+
+
+    /**
+     *Metodo que busca actividades por el nombre
+     */
+
+    public Activity searchActivityByName(String name)
+
+
+
+
+
+
+    //-------------------------------------------------------------------------------------------
     public String getName() {
         return name;
     }

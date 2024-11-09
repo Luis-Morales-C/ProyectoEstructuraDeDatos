@@ -1,5 +1,6 @@
 package Model;
 
+import Utils.ShowMessage;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -81,7 +82,7 @@ public class Tool {
             try {
                 throw new ProcessAlreadyExist();
             } catch (Exception e) {
-                ShowMessage.mostrarMensjae("Error", "Error al agregar el proceso", "El proceso ya existe");
+                ShowMessage.mostrarMensaje("Error", "Error al agregar el proceso", "El proceso ya existe");
             }
     }
 

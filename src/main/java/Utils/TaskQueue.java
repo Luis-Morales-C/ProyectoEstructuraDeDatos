@@ -3,7 +3,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.util.Iterator;
 import java.util.Observable;
-import Exception.TaskAlreadyExistException;
+import Exception.TareaExistenteException;
 
 
 
@@ -11,9 +11,9 @@ public class TaskQueue<E> extends Observable implements Iterable<E> {
     public TaskNode<E> firstNode, lastNode;
     public int size;
 
-    public void add(E value) throws TaskAlreadyExistException {
+    public void add(E value) throws TareaExistenteException {
         if(search(value))
-            throw new TaskAlreadyExistException();
+            throw new TareaExistenteException();
         TaskNode<E> newNode = new TaskNode<>(value);
         if(isEmpty()){
             firstNode = lastNode = newNode;
@@ -23,11 +23,11 @@ public class TaskQueue<E> extends Observable implements Iterable<E> {
         }
         size++;
     }
-    public void add(E value, int index) throws TaskAlreadyExistException {
+    public void add(E value, int index) throws TareaExistenteException {
         if (index < 0 || index > size)
             throw new IndexOutOfBoundsException();
         if(search(value))
-            throw new TaskAlreadyExistException();
+            throw new TareaExistenteException();
         TaskNode<E> newNode = new TaskNode<>(value);
         TaskNode<E> aux = firstNode;
         if(index == 0){

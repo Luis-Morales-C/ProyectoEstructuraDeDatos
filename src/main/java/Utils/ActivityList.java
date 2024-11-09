@@ -5,8 +5,8 @@ import javafx.collections.ObservableList;
 import java.util.Iterator;
 import java.util.Observable;
 
-import Exception.ActivityAlreadyExistsException;
-import Exception.ActivityDoesntExistException;
+import Exception.ActividadExistenteException;
+import Exception.ActividadNoExistenteException;
 
 
 public class ActivityList <E> extends Observable implements Iterable<E>{
@@ -25,7 +25,7 @@ public class ActivityList <E> extends Observable implements Iterable<E>{
      * Agrega un nuevo nodo al final de la lista
      * @param element
      */
-    public void add(E element) throws ActivityAlreadyExistsException {
+    public void add(E element) throws ActividadExistenteException {
         ActivityNode<E> newNode = new ActivityNode<>(element);
         checkDuplicates(element);
         if(isEmpty()){
@@ -47,7 +47,7 @@ public class ActivityList <E> extends Observable implements Iterable<E>{
      * @param element
      * @param previous
      */
-    public void add(E element, E previous) throws ActivityDoesntExistException, ActivityAlreadyExistsException {
+    public void add(E element, E previous) throws ActividadNoExistenteException, ActividadExistenteException {
         ActivityNode<E> newNode = new ActivityNode<>(element);
         ActivityNode<E> aux = searchNode(previous);
         checkDuplicates(element);
@@ -62,7 +62,7 @@ public class ActivityList <E> extends Observable implements Iterable<E>{
      * Agrega un nuevo nodo después del último nodo agregado
      * @param element
      */
-    public void sequentialAdd(E element) throws ActivityAlreadyExistsException {
+    public void sequentialAdd(E element) throws ActividadExistenteException {
         ActivityNode<E> newNode = new ActivityNode<>(element);
         checkDuplicates(element);
         if(isEmpty()) {
@@ -93,7 +93,7 @@ public class ActivityList <E> extends Observable implements Iterable<E>{
      * Elimina un nodo de la lista
      * @param element
      */
-    public void remove(E element) throws ActivityDoesntExistException {
+    public void remove(E element) throws ActividadNoExistenteException {
         ActivityNode<E> aux = searchNode(element);
         if (aux != null) {
             removeNode(aux);
@@ -120,7 +120,7 @@ public class ActivityList <E> extends Observable implements Iterable<E>{
         notifyObservers();
     }
 
-    public ActivityNode<E> searchNode(E element) throws ActivityDoesntExistException {
+    public ActivityNode<E> searchNode(E element) throws ActividadNoExistenteException {
         ActivityNode<E> foward = firstNode;
         ActivityNode<E> backward = lastNode;
         do{
@@ -133,7 +133,7 @@ public class ActivityList <E> extends Observable implements Iterable<E>{
             backward = backward.getPreviousNode();
         }while(foward != null && backward != null && foward != backward);
 
-        throw new ActivityDoesntExistException();
+        throw new ActividadNoExistenteException();
     }
 
 
@@ -159,9 +159,9 @@ public class ActivityList <E> extends Observable implements Iterable<E>{
         return node.getNextNode() != null;
     }
 
-    private void checkDuplicates(E element) throws ActivityAlreadyExistsException {
+    private void checkDuplicates(E element) throws ActividadExistenteException {
         if(contains(element))
-            throw new ActivityAlreadyExistsException();
+            throw new ActividadExistenteException();
     }
     public boolean contains(E actividad) {
         ActivityNode<E> aux = firstNode;

@@ -1,4 +1,4 @@
-package model;
+package Model;
 
 import java.util.Objects;
 
@@ -15,6 +15,14 @@ public class User {
         this.password = password;
         this.notificationType = notificationType;
         this.mail = mail;
+    }
+
+    public User(){
+        this.userType=null;
+        this.userName=null;
+        this.password=null;
+        this.notificationType=null;
+        this.mail=null;
     }
 
     public UserType getUserType() {

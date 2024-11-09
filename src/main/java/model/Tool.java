@@ -1,10 +1,15 @@
-package model;
+package Model;
 
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import Exception.UserDoesntExistException;
+import Exception.UserAlreadyExistException;
+import Exception.ProcessAlreadyExist;
 
 import java.util.ArrayList;
+import java.util.Optional;
+
 
 public class Tool {
 
@@ -52,7 +57,7 @@ public class Tool {
 
     public void createUser(String userName, String password, UserType userType, String mail, NotificationType notificationType) {
         try {
-            addUser(new User(userType, userName, password, mail, notificationType));
+            addUser(new User(userType, userName, password,  notificationType, mail));
         } catch (UserAlreadyExistException e) {
             ShowMessage.mostrarMensaje("Error", "Error al crear el usuario", "El usuario ya existe");
         }

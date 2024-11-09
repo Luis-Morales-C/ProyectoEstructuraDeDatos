@@ -17,4 +17,24 @@ public class Process {
 
     }
 
+
+    public String getName() {
+        return name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public int getMinTime() {
+        return minTime;
+    }
+
+    public int getMaxTime() {
+        return maxTime;
+    }
+
+    public List<Activity> getActivities() {
+        return activities;
+    }
 }

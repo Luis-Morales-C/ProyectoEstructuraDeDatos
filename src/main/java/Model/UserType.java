@@ -1,5 +1,5 @@
 package Model;
 
 public enum UserType {
-    ADMINISTRADOR, USUARIO
+    ADMINISTRATOR, REGULAR;
 }

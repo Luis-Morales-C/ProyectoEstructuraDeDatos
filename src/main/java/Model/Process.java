@@ -2,7 +2,10 @@ package Model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import Exception.ActivityAlreadyExistsException;
+import Exception.ActivityDoesntExistException;
 import Utils.ShowMessage;
 
 public class Process {
@@ -39,16 +42,29 @@ public class Process {
 
     }
 
-
-
-
     /**
      *Metodo que busca actividades por el nombre
      */
 
-    public Activity searchActivityByName(String name)
+    public Activity searchActivityByName(String name){
+        for (Activity activity: activities){
+            if(activity.getName().equals(name)){
+                return activity;
+            }
+        }
+        return null;
+    }
 
+    /**
+     *Metodo que elimina una actividad
+     */
 
+    public void deleteActivity(Activity activity) throws ActivityDoesntExistException{
+        activities.remove(activity);
+    }
+    public void deleteActivity(String name) throws ActivityDoesntExistException{
+        activities.remove(searchActivityByName(name));
+    }
 
 
 
@@ -72,5 +88,23 @@ public class Process {
 
     public List<Activity> getActivities() {
         return activities;
+    }
+
+
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, id, minTime, maxTime, activities);
+    }
+
+    @Override
+    public String toString() {
+        return "Process{" +
+                "name='" + name + '\'' +
+                ", id='" + id + '\'' +
+                ", minTime=" + minTime +
+                ", maxTime=" + maxTime +
+                ", activities=" + activities +
+                '}';
     }
 }

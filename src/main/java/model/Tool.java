@@ -138,7 +138,7 @@ public class Tool {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            //Se pueden agregar más acciones depues de hacer click en "OK"
+            //Se pueden agregar más acciones despues de hacer click en "OK"
         }
     });
 

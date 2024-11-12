@@ -120,7 +120,7 @@ public class Tool {
         }
         return false;
     }
-
+    /**
     public void notifyUser(String message) {
         if ((INSTANCE.getCurretnUser().getTypeNotification().equals(NotificationType.MAIL))) ;
         Mail mail = new Mail(INSTANCE.getCurrentUser().getMail(), "Notification", message);
@@ -140,7 +140,7 @@ public class Tool {
         if (result.isPresent() && result.get() == ButtonType.OK) {
             //Se pueden agregar más acciones despues de hacer click en "OK"
         }
-    });
+    }); **/
 
     private void initialistData(){
 

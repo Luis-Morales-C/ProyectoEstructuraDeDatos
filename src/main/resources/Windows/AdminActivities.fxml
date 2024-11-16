@@ -98,7 +98,7 @@
                         <Image url="@../Media/vectorActivities.png" />
                      </image>
                   </ImageView>
-                  <Button fx:id="btnExportActivity" layoutX="71.0" layoutY="299.0" mnemonicParsing="false" onAction="#clickedExportActivity" style="-fx-background-color: #097c3d; -fx-background-radius: 5;" text="EXPORT" textFill="WHITE">
+                  <Button fx:id="btnExportActivity" layoutX="71.0" layoutY="299.0" mnemonicParsing="false" onAction="#clickedExportActivity" style="-fx-background-color: #097c3d; -fx-background-radius: 5;" text="EXPORT" textFill="#b7ffdc">
                      <font>
                         <Font name="Microsoft YaHei Bold" size="12.0" />
                      </font>

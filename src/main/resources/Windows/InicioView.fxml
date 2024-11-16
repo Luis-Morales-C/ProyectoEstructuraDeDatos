@@ -49,7 +49,7 @@
                               <TextField fx:id="txtPasswordLogin" alignment="CENTER" layoutX="51.0" layoutY="201.0" prefHeight="26.0" prefWidth="227.0" promptText="password" style="-fx-background-color: transpare; -fx-border-color: #097c3d; -fx-border-width: 0px 0px 2;" />
                               <Button fx:id="btnGetIntoLogin" layoutX="131.0" layoutY="264.0" mnemonicParsing="false" onAction="#clickedGetIntoLogin" style="-fx-background-color: #097c3d; -fx-background-radius: 5;" text="GET INTO" textFill="#fffcfc">
                                  <font>
-                                    <Font name="Microsoft YaHei UI" size="11.0" />
+                                    <Font name="Microsoft YaHei Bold" size="11.0" />
                                  </font>
                               </Button>
                            </children>

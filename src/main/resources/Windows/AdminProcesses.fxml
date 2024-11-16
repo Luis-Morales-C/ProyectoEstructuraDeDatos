@@ -29,28 +29,28 @@
                               <Font name="Microsoft YaHei Bold" size="14.0" />
                            </font>
                         </Label>
-                        <TextField layoutX="13.0" layoutY="86.0" style="-fx-background-radius: 5;" />
+                        <TextField fx:id="txtNameProcess" layoutX="13.0" layoutY="86.0" style="-fx-background-radius: 5;" />
                         <Label layoutX="14.0" layoutY="62.0" text="Name:">
                            <font>
                               <Font name="Microsoft YaHei Bold" size="12.0" />
                            </font>
                         </Label>
-                        <Button layoutX="58.0" layoutY="170.0" mnemonicParsing="false" style="-fx-background-color: #097c3d; -fx-border-radius: 5;" text="CREATE" textFill="WHITE">
+                        <Button fx:id="btnCreateProcess" layoutX="58.0" layoutY="170.0" mnemonicParsing="false" onAction="#clickedCreateProcess" style="-fx-background-color: #097c3d; -fx-border-radius: 5;" text="CREATE" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Button>
-                        <Button layoutX="48.0" layoutY="207.0" mnemonicParsing="false" style="-fx-background-color: #097c3d; -fx-border-radius: 5;" text="ELIMINATE" textFill="WHITE">
+                        <Button fx:id="btnEliminateProcess" layoutX="48.0" layoutY="207.0" mnemonicParsing="false" onAction="#clickedEliminateProcess" style="-fx-background-color: #097c3d; -fx-border-radius: 5;" text="ELIMINATE" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Button>
-                        <Button layoutX="56.0" layoutY="246.0" mnemonicParsing="false" style="-fx-background-color: #097c3d; -fx-border-radius: 5;" text="UPDATE" textFill="WHITE">
+                        <Button fx:id="btnUpDateProcess" layoutX="56.0" layoutY="246.0" mnemonicParsing="false" onAction="#clickedUpdateProcess" style="-fx-background-color: #097c3d; -fx-border-radius: 5;" text="UPDATE" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Button>
-                        <Hyperlink layoutX="38.0" layoutY="292.0" text="Open activities">
+                        <Hyperlink fx:id="hyperlinkOpenActivitiesProcess" layoutX="38.0" layoutY="292.0" text="Open activities">
                            <font>
                               <Font name="Microsoft YaHei Bold" size="12.0" />
                            </font>
@@ -66,20 +66,20 @@
                               <Font name="Microsoft YaHei Bold" size="14.0" />
                            </font>
                         </Label>
-                        <TableView layoutY="54.0" prefHeight="222.0" prefWidth="422.0">
+                        <TableView fx:id="tableProcess" layoutY="54.0" prefHeight="222.0" prefWidth="422.0">
                           <columns>
-                            <TableColumn prefWidth="98.4000244140625" text="Name" />
-                            <TableColumn prefWidth="100.0" text="ID" />
-                              <TableColumn prefWidth="108.0" text="Minium time" />
-                              <TableColumn prefWidth="116.79998779296875" text="Maximum time" />
+                            <TableColumn fx:id="colunmNameProcess" prefWidth="98.4000244140625" text="Name" />
+                            <TableColumn fx:id="columIDProcess" prefWidth="100.0" text="ID" />
+                              <TableColumn fx:id="colunmMiniumTimeProcess" prefWidth="108.0" text="Minium time" />
+                              <TableColumn fx:id="colunmMaxiumTimeProcess" prefWidth="116.79998779296875" text="Maximum time" />
                           </columns>
                         </TableView>
-                        <Button layoutX="36.0" layoutY="291.0" mnemonicParsing="false" style="-fx-background-color: #097c3d; -fx-border-radius: 5;" text="EXPORT" textFill="WHITE">
+                        <Button fx:id="btnExportPorcess" layoutX="36.0" layoutY="291.0" mnemonicParsing="false" onAction="#clickedExportProcess" style="-fx-background-color: #097c3d; -fx-border-radius: 5;" text="EXPORT" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Button>
-                        <Button layoutX="320.0" layoutY="291.0" mnemonicParsing="false" style="-fx-background-color: #f03836; -fx-border-radius: 5;" text="SIGN OUT" textFill="WHITE">
+                        <Button fx:id="btnSingOutProcess" layoutX="320.0" layoutY="291.0" mnemonicParsing="false" onAction="#clickedSingOutProcess" style="-fx-background-color: #f03836; -fx-border-radius: 5;" text="SIGN OUT" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>

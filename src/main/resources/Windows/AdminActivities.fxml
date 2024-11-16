@@ -17,14 +17,14 @@
    <children>
       <BorderPane prefHeight="400.0" prefWidth="600.0">
          <left>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #b7ffdc;" BorderPane.alignment="CENTER">
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #b7ffdc; -fx-border-color: #ffffff;" BorderPane.alignment="CENTER">
                <children>
                   <Label layoutX="38.0" layoutY="14.0" text="CREATE ACTIVITY">
                      <font>
                         <Font name="Microsoft YaHei Bold" size="14.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txtNameActivity" layoutX="26.0" layoutY="59.0" style="-fx-background-color: transpare; -fx-border-color: #097c3d; -fx-border-width: 0px 0px 2;" />
+                  <TextField fx:id="txtNameActivity" layoutX="26.0" layoutY="59.0" style="-fx-background-radius: 5;" />
                   <Label layoutX="18.0" layoutY="41.0" text="Name:">
                      <font>
                         <Font name="Microsoft YaHei Bold" size="12.0" />
@@ -35,7 +35,7 @@
                         <Font name="Microsoft YaHei Bold" size="12.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txtDescriptionActivity" layoutX="24.0" layoutY="114.0" style="-fx-background-color: transpare; -fx-border-color: #097c3d; -fx-border-width: 0px 0px 2;" />
+                  <TextField fx:id="txtDescriptionActivity" layoutX="24.0" layoutY="114.0" style="-fx-background-radius: 5;" />
                   <ComboBox fx:id="comboBoxMandatoryActivity" layoutX="23.0" layoutY="161.0" prefWidth="150.0" promptText="Mandatory" style="-fx-background-color: #ffffff; -fx-background-radius: 5;" />
                   <Button fx:id="btnCrateActivity" layoutX="68.0" layoutY="202.0" mnemonicParsing="false" onAction="#clickedCreateActivity" style="-fx-background-color: #097c3d; -fx-background-radius: 5;" text="CREATE" textFill="WHITE">
                      <font>

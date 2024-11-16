@@ -19,7 +19,15 @@
          <children>
             <BorderPane prefHeight="400.0" prefWidth="600.0">
                <top>
-                  <AnchorPane prefHeight="47.0" prefWidth="600.0" style="-fx-background-color: #b7ffdc;" BorderPane.alignment="CENTER" />
+                  <AnchorPane prefHeight="47.0" prefWidth="600.0" style="-fx-background-color: #b7ffdc;" BorderPane.alignment="CENTER">
+                     <children>
+                        <ImageView fitHeight="35.0" fitWidth="47.0" layoutX="514.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Media/vectorProcesos.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
                </top>
                <left>
                   <AnchorPane prefHeight="340.0" prefWidth="176.0" style="-fx-background-color: #b7ffdc; -fx-border-color: #ffffff;" BorderPane.alignment="CENTER">

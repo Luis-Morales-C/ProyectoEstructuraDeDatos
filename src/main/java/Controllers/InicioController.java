@@ -1,4 +1,5 @@
 package Controllers;
+import Model.Tool;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -7,6 +8,8 @@ import javafx.scene.control.TextField;
 
 public class InicioController {
 
+       //corregir cuando este el appController
+       // Tool tool =  Instance.getTool;
         @FXML
         private Button btnGetIntoLogin;
 
@@ -24,6 +27,11 @@ public class InicioController {
 
         @FXML
         void clickedGetIntoLogin(ActionEvent event) {
+                String email = "";
+                String password = "";
+
+                email = txtIdLogin.getText();
+                password = txtPasswordLogin.getText();
 
         }
 
@@ -37,5 +45,7 @@ public class InicioController {
 
         }
 
-
+        private boolean datosValidos(String userName, String password) {
+                return !userName.isEmpty() && !password.isEmpty();
+        }
 }

@@ -159,8 +159,19 @@ public class AdminActivitiesController {
 
     @FXML
     void OpenTaskAdminActivitiesAction(ActionEvent event) {
+        if(activitySelection!=null){
+            INSTANCE.setActividadActual((Activity) activitySelection);
+            aplicacion.mostrarVentanaTareasAdmin();
+        }
+    }
+
+    @FXML
+    void initialize(){
+        comboBoxMandatoryActivity.getItems().addAll(true,false);
+
 
     }
+
 
 
 

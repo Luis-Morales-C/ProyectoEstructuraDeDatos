@@ -1,4 +1,5 @@
 package App;
+import Controllers.TaskController;
 import javafx.application.Application;
 import Controllers.InicioController;
 import Model.Tool;
@@ -74,6 +75,25 @@ public class AppPrincipal extends Application{
     public static void  mostrarVentanaProcesosAdmin(){
 
     }
+
+    public void mostrarVentanaTareasAdmin(){
+        try{
+            FXMLLoader loader= new FXMLLoader();
+            loader.setLocation(AppPrincipal.class.getResource("TaskView.fxml"));
+
+            AnchorPane rootLayout = loader.load();
+
+            TaskController taskController = loader.getController();
+            taskController.setAplicacion(this);
+
+            Scene scene= new Scene(rootLayout);
+            changeWindow(scene);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+
 
 
 }

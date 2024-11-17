@@ -37,7 +37,6 @@ public class TaskController {
 
     Activity actividad = INSTANCE.getActividadActual();
 
-
     @FXML
         private Button btnCreateTask;
 
@@ -169,13 +168,10 @@ public class TaskController {
         }
     }
 
-
     @FXML
         void clickedUpdateTask(MouseEvent event) {
 
         }
-
-
 
     @FXML
     void initialize() {
@@ -209,7 +205,6 @@ public class TaskController {
 
         tableTask.setItems(filteredList);
     }
-
     private void loadTable(){
         colunmNameTask.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colunmDescriptionTask.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
@@ -219,7 +214,6 @@ public class TaskController {
 
         ObservableList<Task> tareas = FXCollections.observableArrayList(actividad.getTasks().getTableData());
         tableTask.setItems(tareas);
-
     }
 
     private void rechargeTable(){

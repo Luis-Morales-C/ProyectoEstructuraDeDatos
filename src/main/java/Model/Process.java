@@ -1,7 +1,4 @@
 package Model;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import Exception.ActivityAlreadyExistsException;
@@ -60,7 +57,6 @@ public class Process {
         calculateTimes();
     }
 
-
     /**
      *Metodo que busca actividades por el nombre
      */
@@ -92,7 +88,6 @@ public class Process {
         return time;
     }
 
-
     /**
      *Metodo que elimina una actividad
      */
@@ -119,7 +114,6 @@ public class Process {
 
     //-------------------------------------------------------------------------------------------
     //Getter y setter
-
 
     public String getName() {
         return name;
@@ -172,7 +166,6 @@ public class Process {
         Process proceso = (Process) o;
         return calculateMinTime() == proceso.calculateMinTime() && maxTime == proceso.maxTime && Objects.equals(name, proceso.name) && Objects.equals(id, proceso.id);
     }
-
 
     @Override
     public int hashCode() {

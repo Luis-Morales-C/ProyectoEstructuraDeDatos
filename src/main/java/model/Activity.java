@@ -15,7 +15,7 @@ public class Activity {
     private int totalTime=0;
     private int minTime=0;
 
-    private TaskQueue<Task> tasks;
+    private TaskQueue<Task> tasks= new TaskQueue<>();
 
     public Activity(String name, String description, Boolean obligatory) {
         this.name = name;
@@ -32,14 +32,17 @@ public class Activity {
 
     //metodos ----------------------------------------------------------------------------------------------------
 
-    public Task buscarTareaPorNombre(String nombreTarea){
-        for (Task tarea : tasks) {
-            if(tarea.getname().equals(nombreTarea)){
-                return tarea;
+        /**
+         * Metodo que busca tareas por el nombre
+         */
+        public Task searchTaskByName(String name){
+            for (Task task: tasks){
+                if(task.getname().equals(name)){
+                    return task;
+                }
             }
+            return null;
         }
-        return null;
-    }
     /**
      * Metodo que crea una tarea
      */
@@ -65,20 +68,6 @@ public class Activity {
         calculateTimes();
     }
 
-
-
-    /**
-     * Metodo que busca tareas por el nombre
-     */
-    public Task searchTaskByName(String name){
-            for (Task task: tasks){
-                if(task.getname().equals(name)){
-                    return task;
-                }
-            }
-            return null;
-    }
-
     /**
      *Metodo que elimina una tarea
      */
@@ -86,7 +75,6 @@ public class Activity {
     public void deleteTask(Task task){
         tasks.remove(tasks.searchIndex(task));
     }
-
 
 
     /**
@@ -120,6 +108,7 @@ public class Activity {
     }
 
     //------------------------------------------------------------------------------------------------------------
+    //Getter y setter
     public String getName() {
         return name;
     }
@@ -151,6 +140,16 @@ public class Activity {
     public void setTasks(TaskQueue<Task> tasks) {
         this.tasks = tasks;
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Activity actividad = (Activity) o;
+        return Objects.equals(name, actividad.name) && Objects.equals(description, actividad.description) && Objects.equals(obligatory, actividad.obligatory);
+    }
+
 
     @Override
     public int hashCode() {

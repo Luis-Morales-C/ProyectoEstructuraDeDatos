@@ -17,13 +17,7 @@ public class User {
         this.mail = mail;
     }
 
-    public User(){
-        this.userType=null;
-        this.userName=null;
-        this.password=null;
-        this.notificationType=null;
-        this.mail=null;
-    }
+    public User(){ super(); }
 
     public UserType getUserType() {
         return userType;
@@ -64,6 +58,7 @@ public class User {
     public void setMail(String mail) {
         this.mail = mail;
     }
+
 
     @Override
     public boolean equals(Object o){

@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import Exception.ActivityAlreadyExistsException;
 import Exception.ActivityDoesntExistException;
+import Utils.ActivityList;
 import Utils.ShowMessage;
 
 public class Process {
@@ -14,13 +15,13 @@ public class Process {
     private String id;
     private int minTime;
     private int maxTime;
-    private List<Activity>activities;
+    private ActivityList <Activity> activities;
 
     public Process(String name, String id){
         super();
         this.name= name;
         this.id= id;
-        activities= new ArrayList<>();
+        activities= new ActivityList<>();
 
     }
     //Metodos-----------------------------------------------------------------------------------
@@ -41,6 +42,26 @@ public class Process {
         }
         calculateTimes();
     }
+
+    public void addActivity(Activity actividad, String nombreActividadAnterior){
+        if(!activities.contains(actividad)){
+            try {
+                activities.add(actividad, searchActivityByName(nombreActividadAnterior));
+            } catch (ActivityDoesntExistException e) {
+                ShowMessage.mostrarMensaje("Error", "Error al agregar actividad", "La actividad anterior no existe");
+            } catch (ActivityAlreadyExistsException e) {
+                ShowMessage.mostrarMensaje("Error", "Error al agregar actividad", "La actividad ya existe");
+            }
+        }else {
+            try {
+                throw new ActivityAlreadyExistsException();
+            } catch (ActivityAlreadyExistsException e) {
+                ShowMessage.mostrarMensaje("Error", "Error al agregar actividad", "La actividad ya existe");
+            }
+        }
+        calculateTimes();
+    }
+
 
     /**
      *Metodo que busca actividades por el nombre
@@ -72,10 +93,7 @@ public class Process {
         }
         return time;
     }
-    public void calculateTimes(){
-        minTime= calculateMinTime();
-        maxTime= calculateTotalTime();
-    }
+
 
     /**
      *Metodo que elimina una actividad
@@ -89,30 +107,12 @@ public class Process {
         activities.remove(searchActivityByName(name));
         calculateTimes();
     }
-    /**
-     *Metodo que calcula los timepos de una actividad
-     */
-
-    public int calcularTiempoMin(){
-        int tiempoTotal = 0;
-        for (Activity actividad : activities) {
-            tiempoTotal += actividad.calculateMinTime();
-        }
-        return tiempoTotal;
-    }
-    public int calcularTiempoTotal(){
-        int tiempoTotal = 0;
-        for (Activity actividad : activities) {
-            tiempoTotal += actividad.calculateTotalTime();
-        }
-        return tiempoTotal;
-    }
 
     /**
      *Metodo que actualiza una actividad
      */
 
-    public void actualizarActividad(String nombre, String descripcion) {
+    public void refreshActivity(String nombre, String descripcion) {
         Activity actividad = searchActivityByName(nombre);
         if(actividad != null){
             actividad.setDescription(descripcion);
@@ -120,6 +120,23 @@ public class Process {
     }
 
     //-------------------------------------------------------------------------------------------
+    //Getter y setter
+
+    public void setName(String name) {this.name = name;
+    }
+
+    public void setId(String id) { this.id = id;
+    }
+
+    public void setMinTime(int minTime) {this.minTime = minTime;
+    }
+
+    public void setMaxTime(int maxTime) {this.maxTime = maxTime;
+    }
+
+    public void setActivities(ActivityList<Activity> activities) {this.activities = activities;
+    }
+
     public String getName() {
         return name;
     }
@@ -136,17 +153,21 @@ public class Process {
         return maxTime;
     }
 
-    public List<Activity> getActivities() {
+    public ActivityList<Activity> getActivities() {
         return activities;
     }
 
-
-
-    public void calculeTime(){
-        minTime = calcularTiempoMin();
-        maxTime = calcularTiempoTotal();
+    public void calculateTimes(){
+        minTime= calculateMinTime();
+        maxTime= calculateTotalTime();
     }
 
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Process proceso = (Process) o;
+        return calculateMinTime() == proceso.calculateMinTime() && maxTime == proceso.maxTime && Objects.equals(name, proceso.name) && Objects.equals(id, proceso.id);
+    }
 
 
     @Override

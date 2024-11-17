@@ -13,6 +13,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
@@ -52,22 +53,24 @@ public class TaskController {
         private Button btnUpdateTask;
 
         @FXML
-        private TableColumn<?, ?> columnTimeTask;
+        private TableColumn<Task, Integer> columnTimeTask;
 
         @FXML
-        private TableColumn<?, ?> colunmDescriptionTask;
+        private TableColumn<Task, String> colunmDescriptionTask;
 
         @FXML
-        private TableColumn<?, ?> colunmMandatoryTask;
+        private TableColumn<Task, Boolean> colunmMandatoryTask;
 
         @FXML
-        private TableColumn<?, ?> colunmNameTask;
+        private TableColumn<Task, String> colunmNameTask;
 
         @FXML
         private ComboBox<String> comboBoxMandatoryTask;
 
         @FXML
         private TableView<Task> tableTask;
+
+        private Label userName;
 
         @FXML
         private TextField txtDescriptionTask;
@@ -87,7 +90,6 @@ public class TaskController {
         void ClickedSignOutTask(MouseEvent event) {
 
         }
-
         @FXML
         void clickedCreateTask(MouseEvent event) {
             crearTarea();
@@ -122,7 +124,7 @@ public class TaskController {
             rechargeTable();
         }
 
-      //  INSTANCE.getProcesoActual().calculeTimes;
+       // INSTANCE.getProcesoActual().calculateTimes();
     }
 
 
@@ -176,7 +178,7 @@ public class TaskController {
 
     @FXML
     void initialize() {
-       // nombreUsuario.setText(actividad.getName());
+        userName.setText(actividad.getName());
 
         loadTable();
 
@@ -211,8 +213,8 @@ public class TaskController {
         colunmNameTask.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colunmDescriptionTask.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
         columnTimeTask.setCellValueFactory(new PropertyValueFactory<>("tiempoDuracion"));
-       // colunmMandatoryTask.setCellValueFactory(param -> new SimpleBooleanProperty(param.getValue().getObigatoria()));
-      //  colunmMandatoryTask.setCellFactory(CheckBoxTableCell.forTableColumn(colunmMandatoryTask));
+        colunmMandatoryTask.setCellValueFactory(param -> new SimpleBooleanProperty(param.getValue().getobligatory()));
+        colunmMandatoryTask.setCellFactory(CheckBoxTableCell.forTableColumn(colunmMandatoryTask));
 
         ObservableList<Task> tareas = FXCollections.observableArrayList(actividad.getTasks().getTableData());
         tableTask.setItems(tareas);
@@ -241,7 +243,7 @@ public class TaskController {
                 tarea.setobligatory(comboBoxMandatoryTask.getValue().equals("Si"));
             rechargeTable();
         }
-        //INSTANCE.getProcesoActual().calculeTime();
+       // INSTANCE.getProcesoActual().calculateTimes;
     }
 }
 

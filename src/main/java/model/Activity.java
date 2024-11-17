@@ -12,7 +12,6 @@ public class Activity {
     private String name;
     private String description;
     private Boolean obligatory;
-
     private int totalTime=0;
     private int minTime=0;
 
@@ -23,6 +22,7 @@ public class Activity {
         this.description = description;
         this.obligatory = obligatory;
 
+
     }
     public Activity(String name){
         super();
@@ -32,6 +32,14 @@ public class Activity {
 
     //metodos ----------------------------------------------------------------------------------------------------
 
+    public Task buscarTareaPorNombre(String nombreTarea){
+        for (Task tarea : tasks) {
+            if(tarea.getname().equals(nombreTarea)){
+                return tarea;
+            }
+        }
+        return null;
+    }
     /**
      * Metodo que crea una tarea
      */
@@ -104,6 +112,7 @@ public class Activity {
         }
         return  Mintime;
     }
+
     public void calculateTimes(){
         totalTime= calculateTotalTime();
         minTime=calculateMinTime();

@@ -89,9 +89,35 @@ public class Process {
         activities.remove(searchActivityByName(name));
         calculateTimes();
     }
+    /**
+     *Metodo que calcula los timepos de una actividad
+     */
 
+    public int calcularTiempoMin(){
+        int tiempoTotal = 0;
+        for (Activity actividad : activities) {
+            tiempoTotal += actividad.calculateMinTime();
+        }
+        return tiempoTotal;
+    }
+    public int calcularTiempoTotal(){
+        int tiempoTotal = 0;
+        for (Activity actividad : activities) {
+            tiempoTotal += actividad.calculateTotalTime();
+        }
+        return tiempoTotal;
+    }
 
+    /**
+     *Metodo que actualiza una actividad
+     */
 
+    public void actualizarActividad(String nombre, String descripcion) {
+        Activity actividad = searchActivityByName(nombre);
+        if(actividad != null){
+            actividad.setDescription(descripcion);
+        }
+    }
 
     //-------------------------------------------------------------------------------------------
     public String getName() {
@@ -112,6 +138,13 @@ public class Process {
 
     public List<Activity> getActivities() {
         return activities;
+    }
+
+
+
+    public void calculeTime(){
+        minTime = calcularTiempoMin();
+        maxTime = calcularTiempoTotal();
     }
 
 

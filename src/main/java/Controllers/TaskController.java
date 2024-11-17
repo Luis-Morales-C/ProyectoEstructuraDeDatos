@@ -1,0 +1,247 @@
+package Controllers;
+import App.AppPrincipal;
+import Model.Activity;
+import Model.Task;
+import Utils.ShowMessage;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
+
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.stream.Collectors;
+
+import  static Controllers.AppController.INSTANCE;
+
+public class TaskController {
+    AppPrincipal aplicacion;
+
+    Activity actividad = INSTANCE.getActividadActual();
+
+
+    @FXML
+        private Button btnCreateTask;
+
+        @FXML
+        private Button btnEliminateTask;
+
+        @FXML
+        private Button btnExportTask;
+
+        @FXML
+        private Button btnSignOutTask;
+
+        @FXML
+        private Button btnUpdateTask;
+
+        @FXML
+        private TableColumn<?, ?> columnTimeTask;
+
+        @FXML
+        private TableColumn<?, ?> colunmDescriptionTask;
+
+        @FXML
+        private TableColumn<?, ?> colunmMandatoryTask;
+
+        @FXML
+        private TableColumn<?, ?> colunmNameTask;
+
+        @FXML
+        private ComboBox<String> comboBoxMandatoryTask;
+
+        @FXML
+        private TableView<Task> tableTask;
+
+        @FXML
+        private TextField txtDescriptionTask;
+
+        @FXML
+        private TextField txtNameTask;
+
+        @FXML
+        private TextField txtSearchTask;
+
+        @FXML
+        private TextField txtTimeTask;
+
+       Object tareaSelection;
+
+        @FXML
+        void ClickedSignOutTask(MouseEvent event) {
+
+        }
+
+        @FXML
+        void clickedCreateTask(MouseEvent event) {
+            crearTarea();
+        }
+
+        @FXML
+        void clickedEliminateTask(MouseEvent event) {
+            eliminarTarea();
+        }
+
+
+    public void crearTarea(){
+        try {
+            Boolean isObligatoria = comboBoxMandatoryTask.getValue().equals("Si");
+            String nombre = txtNameTask.getText();
+            String descripcion = txtDescriptionTask.getText();
+            int tiempo = Integer.parseInt(txtTimeTask.getText());
+            actividad.createTask(nombre, descripcion,isObligatoria, tiempo);
+            rechargeTable();
+        } catch (NumberFormatException e) {
+            ShowMessage.mostrarMensaje("Error", "Error al crear tarea", "El tiempo debe ser un numero");
+        }
+        INSTANCE.getProcesoActual();
+    }
+
+    public void eliminarTarea(){
+
+        Task tarea = tableTask.getSelectionModel().getSelectedItem();
+
+        if(tarea != null){
+            actividad.deleteTask(tarea);
+            rechargeTable();
+        }
+
+      //  INSTANCE.getProcesoActual().calculeTimes;
+    }
+
+
+    @FXML
+       public void clickedExportTask(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Guardar como archivo Excel");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivo Excel (*.xlsx)", "*.xlsx"));
+        File file = fileChooser.showSaveDialog(null);
+
+        if (file != null) {
+            exportarTablaAExcel(file);
+        }
+        }
+
+
+    private void exportarTablaAExcel(File file) {
+        try (Workbook workbook = new XSSFWorkbook(); FileOutputStream fileOut = new FileOutputStream(file)) {
+            Sheet sheet = workbook.createSheet("Datos");
+
+            // Encabezados de columna
+            Row headerRow = sheet.createRow(0);
+            for (int i = 0; i < tableTask.getColumns().size(); i++) {
+                headerRow.createCell(i).setCellValue(tableTask.getColumns().get(i).getText());
+            }
+
+            // Datos de la tabla
+            ObservableList<Task> items = tableTask.getItems();
+            for (int i = 0; i < items.size(); i++) {
+                Row row = sheet.createRow(i + 1);
+                row.createCell(0).setCellValue(items.get(i).getname());
+                row.createCell(1).setCellValue(items.get(i).getdescription());
+                row.createCell(2).setCellValue(items.get(i).gettime());
+                row.createCell(3).setCellValue(items.get(i).getobligatory());
+            }
+
+            workbook.write(fileOut);
+            System.out.println("Exportación exitosa a Excel.");
+        } catch (IOException e) {
+            ShowMessage.mostrarMensaje("Error", "Error al exportar a Excel", "No se pudo exportar la tabla a Excel.");
+        }
+    }
+
+
+    @FXML
+        void clickedUpdateTask(MouseEvent event) {
+
+        }
+
+
+
+    @FXML
+    void initialize() {
+       // nombreUsuario.setText(actividad.getName());
+
+        loadTable();
+
+        comboBoxMandatoryTask.getItems().addAll( "Si", "No");
+
+        actividad.getTasks().addObserver((o, arg) -> {
+            ObservableList<Task> updatedTableData = FXCollections.observableArrayList(actividad.getTasks().getTableData());
+            tableTask.setItems(updatedTableData);
+        });
+        tableTask.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if(newSelection != null){
+                tareaSelection = newSelection;
+            }
+        });
+
+        txtSearchTask.textProperty().addListener((observable, oldValue, newValue) -> {
+            searchTask();
+        });
+    }
+
+    @FXML
+    private void searchTask() {
+        String text = txtSearchTask.getText();
+        ObservableList<Task> filteredList = actividad.getTasks().getTableData().stream()
+                .filter(tarea -> tarea.getname().toLowerCase().contains(text.toLowerCase()))
+                .collect(Collectors.collectingAndThen(Collectors.toList(), FXCollections::observableArrayList));
+
+        tableTask.setItems(filteredList);
+    }
+
+    private void loadTable(){
+        colunmNameTask.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colunmDescriptionTask.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+        columnTimeTask.setCellValueFactory(new PropertyValueFactory<>("tiempoDuracion"));
+       // colunmMandatoryTask.setCellValueFactory(param -> new SimpleBooleanProperty(param.getValue().getObigatoria()));
+      //  colunmMandatoryTask.setCellFactory(CheckBoxTableCell.forTableColumn(colunmMandatoryTask));
+
+        ObservableList<Task> tareas = FXCollections.observableArrayList(actividad.getTasks().getTableData());
+        tableTask.setItems(tareas);
+
+    }
+
+    private void rechargeTable(){
+        tableTask.getItems().clear();
+        ObservableList<Task> updatedTableData = FXCollections.observableArrayList(actividad.getTasks().getTableData());
+        tableTask.setItems(updatedTableData);
+    }
+    public void setAplicacion(AppPrincipal aplicacion) {
+        this.aplicacion = aplicacion;
+    }
+
+    public void update(MouseEvent mouseEvent) {
+        if(tareaSelection != null){
+            Task tarea = (Task) tareaSelection;
+            if(!txtNameTask.getText().isEmpty())
+                tarea.setname(txtNameTask.getText());
+            if(!txtDescriptionTask.getText().isEmpty())
+                tarea.setdescription(txtDescriptionTask.getText());
+            if(!txtTimeTask.getText().isEmpty())
+                tarea.settime(Integer.parseInt(txtTimeTask.getText()));
+            if(comboBoxMandatoryTask.getValue() != null)
+                tarea.setobligatory(comboBoxMandatoryTask.getValue().equals("Si"));
+            rechargeTable();
+        }
+        //INSTANCE.getProcesoActual().calculeTime();
+    }
+}
+

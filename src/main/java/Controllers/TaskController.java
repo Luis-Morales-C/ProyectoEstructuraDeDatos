@@ -84,9 +84,7 @@ public class TaskController {
        Object tareaSelection;
 
         @FXML
-        void ClickedSignOutTask(MouseEvent event) {
-
-        }
+        void ClickedSignOutTask(MouseEvent event) {aplicacion.mostrarVentanaIniciarHerramienta();}
 
         @FXML
         void clickedCreateTask(MouseEvent event) {

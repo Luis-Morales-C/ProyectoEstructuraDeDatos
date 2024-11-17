@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import  static Controllers.AppController.INSTANCE;
 import Model.Process;
 import Exception.ActivityAlreadyExistsException;
+import Exception.ActivityDoesntExistException;
 import Exception.IncompleteDataException;
 import App.AppPrincipal;
 
@@ -19,6 +20,7 @@ import App.AppPrincipal;
 import java.awt.event.ActionEvent;
 
 public class AdminActivitiesController {
+    AppPrincipal aplicacion;
 
     Process process = INSTANCE.getProcesoActual();
 
@@ -81,10 +83,7 @@ public class AdminActivitiesController {
     }
 
     @FXML
-    void clickedSignOutActivity(ActionEvent event) {
-
-
-    }
+    void clickedSignOutActivity(ActionEvent event) {aplicacion.mostrarVentanaIniciarHerramienta();}
 
     @FXML
     void clickedCreateActivity(ActionEvent event) {
@@ -118,13 +117,44 @@ public class AdminActivitiesController {
 
     @FXML
     void clickedEliminateActivity(ActionEvent event) {
+        if(activitySelection!= null){
+            try {
+                process.deleteActivity((Activity) activitySelection);
+            }catch (ActivityDoesntExistException e){
+                ShowMessage.mostrarMensaje("Error","Error al eliinar actividad", "La actividad no existe");
+            }
+        }else if(process.getActivities().getSize()==1){
+            try {
+                process.deleteActivity(process.getActivities().getFirstNode().getValue());
+            }catch (ActivityDoesntExistException e){
+                ShowMessage.mostrarMensaje("Error","Error al eliminar actividad","la actividad no existe");
+            }
+        }else if(!txtNameActivity.getText().isEmpty()){
+            try {
+                process.deleteActivity(txtNameActivity.getText());
+            }catch (ActivityDoesntExistException e){
+                ShowMessage.mostrarMensaje("Error","Error al eliminar actividad","La actividad no existe");
+            }
+        }
 
+        //Recargar la tabla
 
     }
 
     @FXML
     void clickedUpdateActivity(ActionEvent event) {
 
+        if(activitySelection!=null){
+            Activity activity = (Activity) activitySelection;
+            if(!txtNameActivity.getText().isEmpty())
+                activity.setName(txtNameActivity.getText());
+            if(!txtDescriptionActivity.getText().isEmpty())
+                activity.setDescription(txtDescriptionActivity.getText());
+            if(comboBoxMandatoryActivity.getValue()!=null)
+                activity.setObligatory(comboBoxMandatoryActivity.getValue());
+        }else
+            ShowMessage.mostrarMensaje("Error","Error al actualizar","No se selecciono ninguna actividad");
+            //Recargar tabla
     }
 
     @FXML

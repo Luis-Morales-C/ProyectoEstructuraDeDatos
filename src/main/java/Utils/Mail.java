@@ -1,5 +1,8 @@
 package Utils;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 public class Mail {
@@ -21,7 +24,7 @@ public class Mail {
         props.put("mail.smtp.host", "smtp.gmail.com"); //Cambia al servidor de correo que está utiliznado
         props.put("mail.smtp.port", "587"); //Puerto del servidor de correo
 
-        /** // Credenciales del remitente
+         // Credenciales del remitente
         from = "finalproyectea@gmail.com";
         pasword = "uotg uxqy ybje blrc";
         // Crear una sesión con autenticación
@@ -50,6 +53,6 @@ public class Mail {
 
         } catch (MessagingException e) {
             e.printStackTrace();
-        }**/
+        }
     }
 }

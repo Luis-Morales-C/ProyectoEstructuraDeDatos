@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import Exception.ActivityAlreadyExistsException;
 import Exception.ActivityDoesntExistException;
+import Utils.ActivityList;
 import Utils.ShowMessage;
 
 public class Process {
@@ -14,13 +15,13 @@ public class Process {
     private String id;
     private int minTime;
     private int maxTime;
-    private List<Activity>activities;
+    private ActivityList<Activity>activities;
 
     public Process(String name, String id){
         super();
         this.name= name;
         this.id= id;
-        activities= new ArrayList<>();
+        activities= new ActivityList<>();
 
     }
     //Metodos-----------------------------------------------------------------------------------
@@ -41,6 +42,26 @@ public class Process {
         }
         calculateTimes();
     }
+    public void addActivity(Activity activity, String name){
+        if(!activities.contains(activity)){
+            try {
+                activities.add(activity, searchActivityByName(name));
+            }catch (ActivityDoesntExistException e){
+                ShowMessage.mostrarMensaje("Error","Error agrengando actividad","No existe activiad anterior");
+            }catch (ActivityAlreadyExistsException e){
+                ShowMessage.mostrarMensaje("Error","Error agregando actividad","La actividad ya existe");
+            }
+        }else {
+            try {
+                throw new ActivityAlreadyExistsException();
+            }catch (ActivityAlreadyExistsException e){
+                ShowMessage.mostrarMensaje("Error","Error al agreagr actividad","Ya existe");
+            }
+        }
+        calculateTimes();
+    }
+
+
 
     /**
      *Metodo que busca actividades por el nombre
@@ -136,7 +157,7 @@ public class Process {
         return maxTime;
     }
 
-    public List<Activity> getActivities() {
+    public ActivityList<Activity> getActivities() {
         return activities;
     }
 

@@ -3,6 +3,7 @@ package Controllers;
 import Model.Activity;
 import Model.Tool;
 import Model.User;
+import Model.Process;
 public enum AppController {
 
     INSTANCE();

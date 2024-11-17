@@ -39,7 +39,7 @@ public class Process {
                 ShowMessage.mostrarMensaje("error","error al agregar una actividad", "la actividad ya existe");
             }
         }
-
+        calculateTimes();
     }
 
     /**
@@ -54,6 +54,28 @@ public class Process {
         }
         return null;
     }
+    /**
+     * Calcular los tiempos
+     */
+
+    public int calculateMinTime(){
+        int time=0;
+        for (Activity activity: activities){
+            time+= activity.calculateTotalTime();
+        }
+        return time;
+    }
+    public int calculateTotalTime(){
+        int time=0;
+        for (Activity activity: activities){
+            time+=activity.calculateTotalTime();
+        }
+        return time;
+    }
+    public void calculateTimes(){
+        minTime= calculateMinTime();
+        maxTime= calculateTotalTime();
+    }
 
     /**
      *Metodo que elimina una actividad
@@ -61,9 +83,11 @@ public class Process {
 
     public void deleteActivity(Activity activity) throws ActivityDoesntExistException{
         activities.remove(activity);
+        calculateTimes();
     }
     public void deleteActivity(String name) throws ActivityDoesntExistException{
         activities.remove(searchActivityByName(name));
+        calculateTimes();
     }
 
 

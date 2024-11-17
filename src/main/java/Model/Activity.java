@@ -48,6 +48,15 @@ public class Activity {
         calculateTimes();
     }
 
+    public void createTask(Task task){
+        try {
+            tasks.add(task);
+        }catch (TaskAlreadyExistException e){
+            ShowMessage.mostrarMensaje("Error","Error creando tarea","La tarea ya existe");
+        }
+        calculateTimes();
+    }
+
 
 
     /**
@@ -69,6 +78,8 @@ public class Activity {
     public void deleteTask(Task task){
         tasks.remove(tasks.searchIndex(task));
     }
+
+
 
     /**
      *Metodo que determina el tiempo total de la actividad y el otro el minimo

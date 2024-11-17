@@ -2,6 +2,10 @@ package Controllers;
 
 import Model.Activity;
 import Utils.ShowMessage;
+import javafx.beans.Observable;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -15,9 +19,20 @@ import Exception.ActivityAlreadyExistsException;
 import Exception.ActivityDoesntExistException;
 import Exception.IncompleteDataException;
 import App.AppPrincipal;
+import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 
 import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.stream.Collectors;
 
 public class AdminActivitiesController {
     AppPrincipal aplicacion;
@@ -74,16 +89,58 @@ public class AdminActivitiesController {
     private TextField txtNameActivity;
 
     Object activitySelection;
+    @FXML
+    private Label nombreProceso;
+
 
 
 
     @FXML
     void clickedExportActivity(ActionEvent event) {
+        FileChooser fileChooser= new FileChooser();
+        fileChooser.setTitle("Guardar como archivo Excel");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivo Excel (*.xlsx)", "*.xlsx"));
+        File file= fileChooser.showSaveDialog(null);
+
+        if(file!=null){
+            exportarTablaAExcel(file);
+        }
 
     }
 
+    private void exportarTablaAExcel(File file) {
+        try (Workbook workbook = new XSSFWorkbook(); FileOutputStream fileOut = new FileOutputStream(file)) {
+            Sheet sheet = workbook.createSheet("Datos");
+
+            // Encabezados de columna
+            Row headerRow = sheet.createRow(0);
+            for (int i = 0; i < tableActivities.getColumns().size(); i++) {
+                headerRow.createCell(i).setCellValue(tableActivities.getColumns().get(i).getText());
+            }
+
+            // Datos de la tabla
+            ObservableList<Activity> items = tableActivities.getItems();
+            for (int i = 0; i < items.size(); i++) {
+                Row row = sheet.createRow(i + 1);
+                row.createCell(0).setCellValue(items.get(i).getName());
+                row.createCell(1).setCellValue(items.get(i).getDescription());
+                row.createCell(2).setCellValue(items.get(i).getObligatory());
+                row.createCell(3).setCellValue(items.get(i).getMinTime());
+                row.createCell(4).setCellValue(items.get(i).getTotalTime());
+            }
+
+            workbook.write(fileOut);
+            System.out.println("Exportación exitosa a Excel.");
+        } catch (IOException e) {
+            ShowMessage.mostrarMensaje("Error", "Error al exportar a Excel", "No se pudo exportar la tabla a Excel.");
+        }
+    }
+
+
     @FXML
-    void clickedSignOutActivity(ActionEvent event) {aplicacion.mostrarVentanaIniciarHerramienta();}
+    void clickedSignOutActivity(ActionEvent event) {
+        aplicacion.mostrarVentanaIniciarHerramienta();
+    }
 
     @FXML
     void clickedCreateActivity(ActionEvent event) {
@@ -103,7 +160,7 @@ public class AdminActivitiesController {
             createSequenceActivity();
         }
 
-        //Recarga tabla
+        rechargeTable();
 
     }
 
@@ -137,7 +194,7 @@ public class AdminActivitiesController {
             }
         }
 
-        //Recargar la tabla
+        rechargeTable();
 
     }
 
@@ -154,7 +211,8 @@ public class AdminActivitiesController {
                 activity.setObligatory(comboBoxMandatoryActivity.getValue());
         }else
             ShowMessage.mostrarMensaje("Error","Error al actualizar","No se selecciono ninguna actividad");
-            //Recargar tabla
+
+        rechargeTable();
     }
 
     @FXML
@@ -169,10 +227,57 @@ public class AdminActivitiesController {
     void initialize(){
         comboBoxMandatoryActivity.getItems().addAll(true,false);
 
+        nombreProceso.setText(process.getName());
+        loadTable();
+
+        process.getActivities().addObserver((o, arg) -> {
+            ObservableList<Activity> updateTableData = FXCollections.observableArrayList(process.getActivities().getTableData());
+            tableActivities.setItems(updateTableData);
+        });
+        tableActivities.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection)->{
+            if(newSelection!=null){
+                activitySelection= newSelection;
+            }
+        });
+
+        txtSearchActivity.textProperty().addListener((observable, oldValue, newValue)->{
+            searchActivity();
+        });
+
 
     }
 
+    private void loadTable() {
+        columnNameActivity.setCellValueFactory(new PropertyValueFactory<>("name"));
+        columnDescriptionActivity.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+        columnMandatoryActivity.setCellValueFactory(param -> new SimpleBooleanProperty(param.getValue().getObligatory()));
+        columnMandatoryActivity.setCellFactory(CheckBoxTableCell.forTableColumn(columnMandatoryActivity));
+        columnMiniumTimeActivity.setCellValueFactory(new PropertyValueFactory<>("Minimumtime"));
+        columnTotalTimeActivity.setCellValueFactory(new PropertyValueFactory<>("Totaltime"));
 
+        ObservableList<Activity> activitiesData= FXCollections.observableArrayList(process.getActivities().getTableData());
+        tableActivities.setItems(activitiesData);
+    }
 
+    public void rechargeTable(){
+        tableActivities.getItems().clear();
+        ObservableList<Activity> activitiesData = FXCollections.observableArrayList(process.getActivities().getTableData());
+        tableActivities.setItems(activitiesData);
+        txtNameActivity.setText("");
+        txtDescriptionActivity.setText("");
+    }
+
+    public void setAplicacion(AppPrincipal aplicacion){
+        this.aplicacion= aplicacion;
+    }
+
+    public void searchActivity(){
+        String text= txtSearchActivity.getText().toLowerCase();
+        ObservableList<Activity> filteredList= process.getActivities().getTableData().stream()
+                .filter(activity -> activity.getName().toLowerCase().contains(text.toLowerCase()))
+                .collect(Collectors.collectingAndThen(Collectors.toList(), FXCollections::observableArrayList));
+
+        tableActivities.setItems(filteredList);
+    }
 
 }

@@ -15,7 +15,7 @@ public class Activity {
     private int totalTime=0;
     private int minTime=0;
 
-    private TaskQueue<Task> tasks;
+    private TaskQueue<Task> tasks = new TaskQueue<>();
 
     public Activity(String name, String description, Boolean obligatory) {
         this.name = name;
@@ -130,6 +130,14 @@ public class Activity {
 
     public Boolean getObligatory() {
         return obligatory;
+    }
+
+    public int getTotalTime() {
+        return totalTime;
+    }
+
+    public int getMinTime() {
+        return minTime;
     }
 
     public TaskQueue<Task> getTasks() {

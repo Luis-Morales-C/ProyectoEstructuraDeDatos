@@ -25,8 +25,6 @@ public class Process {
 
     }
     //Metodos-----------------------------------------------------------------------------------
-
-
     /**
      *Metodo que agrega actividades al proceso
      */
@@ -122,39 +120,45 @@ public class Process {
     //-------------------------------------------------------------------------------------------
     //Getter y setter
 
-    public void setName(String name) {this.name = name;
-    }
-
-    public void setId(String id) { this.id = id;
-    }
-
-    public void setMinTime(int minTime) {this.minTime = minTime;
-    }
-
-    public void setMaxTime(int maxTime) {this.maxTime = maxTime;
-    }
-
-    public void setActivities(ActivityList<Activity> activities) {this.activities = activities;
-    }
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getId() {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public int getMinTime() {
         return minTime;
+    }
+
+    public void setMinTime(int minTime) {
+        this.minTime = minTime;
     }
 
     public int getMaxTime() {
         return maxTime;
     }
 
+    public void setMaxTime(int maxTime) {
+        this.maxTime = maxTime;
+    }
+
     public ActivityList<Activity> getActivities() {
         return activities;
+    }
+
+    public void setActivities(ActivityList<Activity> activities) {
+        this.activities = activities;
     }
 
     public void calculateTimes(){

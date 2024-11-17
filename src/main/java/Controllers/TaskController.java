@@ -3,6 +3,7 @@ import App.AppPrincipal;
 import Model.Activity;
 import Model.Task;
 import Utils.ShowMessage;
+
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -112,7 +113,7 @@ public class TaskController {
         } catch (NumberFormatException e) {
             ShowMessage.mostrarMensaje("Error", "Error al crear tarea", "El tiempo debe ser un numero");
         }
-        INSTANCE.getProcesoActual();
+        INSTANCE.getProcesoActual().calculateTimes();
     }
 
     public void eliminarTarea(){
@@ -124,7 +125,7 @@ public class TaskController {
             rechargeTable();
         }
 
-       // INSTANCE.getProcesoActual().calculateTimes();
+        INSTANCE.getProcesoActual().calculateTimes();
     }
 
 
@@ -243,7 +244,7 @@ public class TaskController {
                 tarea.setobligatory(comboBoxMandatoryTask.getValue().equals("Si"));
             rechargeTable();
         }
-       // INSTANCE.getProcesoActual().calculateTimes;
+       INSTANCE.getProcesoActual().calculateTimes();
     }
 }
 

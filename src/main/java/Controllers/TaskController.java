@@ -81,8 +81,7 @@ public class TaskController {
     Object tareaSelection;
 
     @FXML
-    void ClickedSignOutTask(MouseEvent event) {
-
+    void ClickedSignOutTask(MouseEvent event) { aplicacion.mostrarVentanaIniciarHerramienta();
     }
     @FXML
     void clickedCreateTask(MouseEvent event) {
@@ -110,14 +109,12 @@ public class TaskController {
     }
 
     public void eliminarTarea(){
-
         Task tarea = tableTask.getSelectionModel().getSelectedItem();
 
         if(tarea != null){
             actividad.deleteTask(tarea);
             rechargeTable();
         }
-
         INSTANCE.getProcesoActual().calculateTimes();
     }
 
@@ -163,14 +160,8 @@ public class TaskController {
     }
 
     @FXML
-    void clickedUpdateTask(MouseEvent event) {
-
-    }
-
-    @FXML
     void initialize() {
         userName.setText(actividad.getName());
-
         loadTable();
 
         comboBoxMandatoryTask.getItems().addAll( "Si", "No");
@@ -219,7 +210,7 @@ public class TaskController {
         this.aplicacion = aplicacion;
     }
 
-    public void update(MouseEvent mouseEvent) {
+    public void clickedUpdateTask (MouseEvent mouseEvent) {
         if(tareaSelection != null){
             Task tarea = (Task) tareaSelection;
             if(!txtNameTask.getText().isEmpty())

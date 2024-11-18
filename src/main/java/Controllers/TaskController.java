@@ -8,11 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
@@ -35,66 +31,68 @@ public class TaskController {
 
     Activity actividad = INSTANCE.getActividadActual();
 
+    @FXML
+    private Button btnCreateTask;
 
     @FXML
-        private Button btnCreateTask;
+    private Button btnEliminateTask;
 
-        @FXML
-        private Button btnEliminateTask;
+    @FXML
+    private Button btnExportTask;
 
-        @FXML
-        private Button btnExportTask;
+    @FXML
+    private Button btnSignOutTask;
 
-        @FXML
-        private Button btnSignOutTask;
+    @FXML
+    private Button btnUpdateTask;
 
-        @FXML
-        private Button btnUpdateTask;
+    @FXML
+    private TableColumn<Task, Integer> columnTimeTask;
 
-        @FXML
-        private TableColumn<?, ?> columnTimeTask;
+    @FXML
+    private TableColumn<Task, String> colunmDescriptionTask;
 
-        @FXML
-        private TableColumn<?, ?> colunmDescriptionTask;
+    @FXML
+    private TableColumn<Task, Boolean> colunmMandatoryTask;
 
-        @FXML
-        private TableColumn<?, ?> colunmMandatoryTask;
+    @FXML
+    private TableColumn<Task, String> colunmNameTask;
 
-        @FXML
-        private TableColumn<?, ?> colunmNameTask;
+    @FXML
+    private ComboBox<String> comboBoxMandatoryTask;
 
-        @FXML
-        private ComboBox<String> comboBoxMandatoryTask;
+    @FXML
+    private TableView<Task> tableTask;
 
-        @FXML
-        private TableView<Task> tableTask;
+    private Label userName;
 
-        @FXML
-        private TextField txtDescriptionTask;
+    @FXML
+    private TextField txtDescriptionTask;
 
-        @FXML
-        private TextField txtNameTask;
+    @FXML
+    private TextField txtNameTask;
 
-        @FXML
-        private TextField txtSearchTask;
+    @FXML
+    private TextField txtSearchTask;
 
-        @FXML
-        private TextField txtTimeTask;
+    @FXML
+    private TextField txtTimeTask;
 
-       Object tareaSelection;
+    Object tareaSelection;
 
-        @FXML
-        void ClickedSignOutTask(MouseEvent event) {aplicacion.mostrarVentanaIniciarHerramienta();}
+    @FXML
+    void ClickedSignOutTask(MouseEvent event) {
 
-        @FXML
-        void clickedCreateTask(MouseEvent event) {
-            crearTarea();
-        }
+    }
+    @FXML
+    void clickedCreateTask(MouseEvent event) {
+        crearTarea();
+    }
 
-        @FXML
-        void clickedEliminateTask(MouseEvent event) {
-            eliminarTarea();
-        }
+    @FXML
+    void clickedEliminateTask(MouseEvent event) {
+        eliminarTarea();
+    }
 
 
     public void crearTarea(){
@@ -108,7 +106,7 @@ public class TaskController {
         } catch (NumberFormatException e) {
             ShowMessage.mostrarMensaje("Error", "Error al crear tarea", "El tiempo debe ser un numero");
         }
-        INSTANCE.getProcesoActual();
+        INSTANCE.getProcesoActual().calculateTimes();
     }
 
     public void eliminarTarea(){
@@ -120,12 +118,12 @@ public class TaskController {
             rechargeTable();
         }
 
-      //  INSTANCE.getProcesoActual().calculeTimes;
+        INSTANCE.getProcesoActual().calculateTimes();
     }
 
 
     @FXML
-       public void clickedExportTask(ActionEvent event) {
+    public void clickedExportTask(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Guardar como archivo Excel");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivo Excel (*.xlsx)", "*.xlsx"));
@@ -134,7 +132,7 @@ public class TaskController {
         if (file != null) {
             exportarTablaAExcel(file);
         }
-        }
+    }
 
 
     private void exportarTablaAExcel(File file) {
@@ -164,17 +162,14 @@ public class TaskController {
         }
     }
 
-
     @FXML
-        void clickedUpdateTask(MouseEvent event) {
+    void clickedUpdateTask(MouseEvent event) {
 
-        }
-
-
+    }
 
     @FXML
     void initialize() {
-       // nombreUsuario.setText(actividad.getName());
+        userName.setText(actividad.getName());
 
         loadTable();
 
@@ -204,17 +199,15 @@ public class TaskController {
 
         tableTask.setItems(filteredList);
     }
-
     private void loadTable(){
         colunmNameTask.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colunmDescriptionTask.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
         columnTimeTask.setCellValueFactory(new PropertyValueFactory<>("tiempoDuracion"));
-       // colunmMandatoryTask.setCellValueFactory(param -> new SimpleBooleanProperty(param.getValue().getObigatoria()));
-      //  colunmMandatoryTask.setCellFactory(CheckBoxTableCell.forTableColumn(colunmMandatoryTask));
+        colunmMandatoryTask.setCellValueFactory(param -> new SimpleBooleanProperty(param.getValue().getobligatory()));
+        colunmMandatoryTask.setCellFactory(CheckBoxTableCell.forTableColumn(colunmMandatoryTask));
 
         ObservableList<Task> tareas = FXCollections.observableArrayList(actividad.getTasks().getTableData());
         tableTask.setItems(tareas);
-
     }
 
     private void rechargeTable(){
@@ -239,7 +232,7 @@ public class TaskController {
                 tarea.setobligatory(comboBoxMandatoryTask.getValue().equals("Si"));
             rechargeTable();
         }
-        //INSTANCE.getProcesoActual().calculeTime();
+        INSTANCE.getProcesoActual().calculateTimes();
     }
 }
 

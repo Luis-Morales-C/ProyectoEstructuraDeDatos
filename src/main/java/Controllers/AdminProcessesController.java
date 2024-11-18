@@ -23,11 +23,11 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import Exception.AccesDeniedException;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.AccessDeniedException;
 
 import static Controllers.AppController.INSTANCE;
 
@@ -81,7 +81,7 @@ public class AdminProcessesController {
             if (checkPermission())
                 tool.createProcess(txtNameProcess.getText(),
                     String.valueOf(tool.getProcessList().size()));
-        }catch (AccessDeniedException e){
+        }catch (AccesDeniedException e){
             ShowMessage.mostrarMensaje("Error", "Error al crear proceso", "No tiene permisos para crear procesos");
         }
         notifyEmail("Se ha creado el proceso.");
@@ -95,21 +95,29 @@ public class AdminProcessesController {
                 tool.deleteProcess(((Process)selectedProcess).getName());
             else
                 tool.deleteProcess(txtNameProcess.getText());
-        } catch (AccessDeniedException e){
+        } catch (AccesDeniedException e){
             throw new RuntimeException(e);
         }
+        notifyEmail("Se ha eliminado un proceso");
+        rechargeTable();
     }
 
     @FXML
     void clickedExportProcess(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Guardar como archvio Excel");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivo Excel (*.xlsx), ""*.xlsx"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivo Excel (*.xlsx), ","*.xlsx"));
         File file = fileChooser.showSaveDialog(null);
 
         if(file != null){
             exportTableExcel(file);
         }
+    }
+
+    public Boolean checkPermission() throws AccesDeniedException {
+        if (INSTANCE.getUsuarioActual().getUserType().equals(UserType.ADMINISTRATOR))
+            return true;
+        throw new AccesDeniedException();
     }
 
     private void exportTableExcel(File file){
@@ -126,10 +134,10 @@ public class AdminProcessesController {
             ObservableList<Process> items = tableProcess.getItems();
             for(int i = 0; i < items.size(); i++){
                 Row row = sheet.createRow(i + 1);
-                row.createCell(0).setCellValue(items.get(i),getId());
-                row.createCell(1).setCellValue(items.get(i),getName());
-                row.createCell(2).setCellValue(items.get(i),getMinTime());
-                row.createCell(3).setCellValue(items.get(i),getMaxTime());
+                row.createCell(0).setCellValue(items.get(i).getId());
+                row.createCell(1).setCellValue(items.get(i).getName());
+                row.createCell(2).setCellValue(items.get(i).getMinTime());
+                row.createCell(3).setCellValue(items.get(i).getMaxTime());
             }
             workbook.write(fileOut);
             System.out.println("Exportación exitosa a Excel.");
@@ -168,7 +176,7 @@ public class AdminProcessesController {
      void initialize() {
         userName.setText(INSTANCE.getUsuarioActual().getUserName());
         loadTable();
-        tableProcess.getSelectionModel().selectedItemProperty().addListener(((obs, oldSelection, newSelection) -> {
+        tableProcess.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if(newSelection != null){
                 selectedProcess = newSelection;
             }
@@ -202,11 +210,5 @@ public class AdminProcessesController {
 
     public void setAppPrincipal(AppPrincipal appPrincipal){this.appPrincipal = appPrincipal;}
     public void setUser(User user){this.user = user;}
-
-    public boolean checkPermission() throws AccessDeniedException{
-        if(INSTANCE.getUsuarioActual().getUserType().equals(UserType.ADMINISTRATOR))
-            return true;
-        throw new AccessDeniedException();
-    }
 }
 

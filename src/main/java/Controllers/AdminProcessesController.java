@@ -119,7 +119,7 @@ public class AdminProcessesController {
             //Encabezados de la columna
             Row headerRow = sheet.createRow(0);
             for(int i = 0; i < tableProcess.getColumns().size(); i++){
-                headerRow.createCell(i).setCellValue(tableProcess.getColumns().getColumns().get(i).getText());
+                headerRow.createCell(i).setCellValue(tableProcess.getColumns().get(i).getText());
             }
 
             //Datos de la table

@@ -38,7 +38,7 @@ public class AppPrincipal extends Application{
 
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(AppPrincipal.class.getResource("Acceder.fxml"));
+            loader.setLocation(AppPrincipal.class.getResource("InicioView.fxml"));
 
             AnchorPane rootLayout = loader.load();
 
@@ -74,6 +74,7 @@ public class AppPrincipal extends Application{
 
     public static void  mostrarVentanaProcesosAdmin(){
 
+
     }
 
     public void mostrarVentanaTareasAdmin(){
@@ -92,8 +93,6 @@ public class AppPrincipal extends Application{
             e.printStackTrace();
         }
     }
-
-
 
 
 }

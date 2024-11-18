@@ -71,6 +71,16 @@ public class SettingsViewController {
         appPrincipal.mostrarVentanaIniciarHerramienta();
     }
 
+    @FXML
+    void initialize(){
+        comboBoxUserTypeSettings.getItems().addAll(UserType.values());
+        comoBoxNotificationTypeSettings.getItems().addAll(NotificationType.values());
+    }
+
+    public void setAplicacion(AppPrincipal aplicacion){
+        this.appPrincipal= aplicacion;
+    }
+
 
 
 }

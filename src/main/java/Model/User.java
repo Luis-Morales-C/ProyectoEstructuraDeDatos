@@ -18,11 +18,7 @@ public class User {
     }
 
     public User(){
-        this.userType=null;
-        this.userName=null;
-        this.password=null;
-        this.notificationType=null;
-        this.mail=null;
+        super();
     }
 
     public UserType getUserType() {

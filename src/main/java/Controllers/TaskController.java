@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 import  static Controllers.AppController.INSTANCE;
 
 public class TaskController {
-    AppPrincipal aplicacion;
+    AppPrincipal appPrincipal;
 
     Activity actividad = INSTANCE.getActividadActual();
 
@@ -81,7 +81,7 @@ public class TaskController {
     Object tareaSelection;
 
     @FXML
-    void ClickedSignOutTask(MouseEvent event) { aplicacion.mostrarVentanaIniciarHerramienta();
+    void ClickedSignOutTask(MouseEvent event) { appPrincipal.mostrarVentanaIniciarHerramienta();
     }
     @FXML
     void clickedCreateTask(MouseEvent event) {
@@ -207,7 +207,7 @@ public class TaskController {
         tableTask.setItems(updatedTableData);
     }
     public void setAplicacion(AppPrincipal aplicacion) {
-        this.aplicacion = aplicacion;
+        this.appPrincipal = aplicacion;
     }
 
     public void clickedUpdateTask (MouseEvent mouseEvent) {

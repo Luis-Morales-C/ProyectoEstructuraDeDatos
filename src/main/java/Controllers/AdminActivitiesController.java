@@ -21,6 +21,7 @@ import Exception.IncompleteDataException;
 import App.AppPrincipal;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -96,7 +97,7 @@ public class AdminActivitiesController {
 
 
     @FXML
-    void clickedExportActivity(ActionEvent event) {
+    void clickedExportActivity(MouseEvent event) {
         FileChooser fileChooser= new FileChooser();
         fileChooser.setTitle("Guardar como archivo Excel");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivo Excel (*.xlsx)", "*.xlsx"));
@@ -138,12 +139,12 @@ public class AdminActivitiesController {
 
 
     @FXML
-    void clickedSignOutActivity(ActionEvent event) {
+    void clickedSignOutActivity(MouseEvent event) {
         aplicacion.mostrarVentanaIniciarHerramienta();
     }
 
     @FXML
-    void clickedCreateActivity(ActionEvent event) {
+    void clickedCreateActivity(MouseEvent event) {
 
         if(process.getActivities().getSize()==0 || activitySelection==null ){
             try {
@@ -173,7 +174,7 @@ public class AdminActivitiesController {
 
 
     @FXML
-    void clickedEliminateActivity(ActionEvent event) {
+    void clickedEliminateActivity(MouseEvent event) {
         if(activitySelection!= null){
             try {
                 process.deleteActivity((Activity) activitySelection);
@@ -199,7 +200,7 @@ public class AdminActivitiesController {
     }
 
     @FXML
-    void clickedUpdateActivity(ActionEvent event) {
+    void clickedUpdateActivity(MouseEvent event) {
 
         if(activitySelection!=null){
             Activity activity = (Activity) activitySelection;
@@ -216,7 +217,7 @@ public class AdminActivitiesController {
     }
 
     @FXML
-    void OpenTaskAdminActivitiesAction(ActionEvent event) {
+    void OpenTaskAdminActivitiesAction(MouseEvent event) {
         if(activitySelection!=null){
             INSTANCE.setActividadActual((Activity) activitySelection);
             aplicacion.mostrarVentanaTareasAdmin();

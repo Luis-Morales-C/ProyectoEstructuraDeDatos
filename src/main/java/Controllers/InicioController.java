@@ -1,6 +1,7 @@
 package Controllers;
 import App.AppPrincipal;
 import Model.Tool;
+import Model.User;
 import Utils.ShowMessage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,66 +13,75 @@ import Exception.IncompleteDataException;
 import  static Controllers.AppController.INSTANCE;
 public class InicioController {
 
-       //corregir cuando este el appController
-        Tool tool =  INSTANCE.getHerramienta();
-        @FXML
-        private Button btnGetIntoLogin;
 
-        @FXML
-        private Hyperlink hyperlinkManagerLogin;
+    Tool tool = INSTANCE.getHerramienta();
+    AppPrincipal appPrincipal;
+    @FXML
+    private Button btnGetIntoLogin;
 
-        @FXML
-        private Hyperlink hyperlinkRegisterLogin;
+    @FXML
+    private Hyperlink hyperlinkManagerLogin;
 
-        @FXML
-        private TextField txtIdLogin;
+    @FXML
+    private Hyperlink hyperlinkRegisterLogin;
 
-        @FXML
-        private TextField txtPasswordLogin;
+    @FXML
+    private TextField txtIdLogin;
 
-        private AppPrincipal appPrincipal;
-        @FXML
-        void clickedGetIntoLogin(ActionEvent event) {
-            String email = "";
-            String password = "";
+    @FXML
+    private TextField txtPasswordLogin;
 
-            email = txtIdLogin.getText();
-            password = txtPasswordLogin.getText();
-            try {
-                if (datosValidos(email, password)) {
-                    if (tool.searchUser(email).getPassword().equals(password)) {
-                        INSTANCE.setUsuarioActual(tool.searchUser(email));
+    @FXML
+    void clickedGetIntoLogin(ActionEvent event) {
+        String email = "";
+        String password = "";
 
-                        AppPrincipal.mostrarVentanaProcesosAdmin();
-                    } else {
-                        throw new UserDoesntExistException();
-                    }
+        email = txtIdLogin.getText();
+        password = txtPasswordLogin.getText();
+        try {
+            if (datosValidos(email, password)) {
+                if (tool.searchUser(email).getPassword().equals(password)) {
+                    INSTANCE.setUsuarioActual(tool.searchUser(email));
+
+                    AppPrincipal.mostrarVentanaProcesosAdmin();
                 } else {
-                    throw new IncompleteDataException();
+                    throw new UserDoesntExistException();
                 }
-            } catch (IncompleteDataException e) {
-                ShowMessage.mostrarMensaje("Notificacion Inicio sesion", "Datos Incompletos", "Debe ingresar los datos correctamente, despues de 3 intentos se bloqueara el usuario");
-            } catch (UserDoesntExistException e) {
-                ShowMessage.mostrarMensaje("Notificacion Inicio sesion", "Usuario no existe", "El usuario no existe o la contrasenia es incorrecta");
+            } else {
+                throw new IncompleteDataException();
             }
+        } catch (IncompleteDataException e) {
+            ShowMessage.mostrarMensaje("Notificacion Inicio sesion", "Datos Incompletos", "Debe ingresar los datos correctamente, despues de 3 intentos se bloqueara el usuario");
+        } catch (UserDoesntExistException e) {
+            ShowMessage.mostrarMensaje("Notificacion Inicio sesion", "Usuario no existe", "El usuario no existe o la contrasenia es incorrecta");
         }
+    }
 
 
-        @FXML
-        void clickedManagerLogin(ActionEvent event) {
+    @FXML
+    void clickedManagerLogin(ActionEvent event) {
+        appPrincipal.mostrarVentanaLoginAdmin();
+    }
 
-        }
+    @FXML
+    void clickedRegisterLogin(ActionEvent event) {
+        appPrincipal.mostrarVentanaRegistrarse();
 
-        @FXML
-        void clickedRegisterLogin(ActionEvent event) {
-
-        }
+    }
 
     public void setAplicacion(AppPrincipal principal) {
-            this.appPrincipal = principal;
+        this.appPrincipal = principal;
     }
 
     private boolean datosValidos(String userName, String password) {
-                return !userName.isEmpty() && !password.isEmpty();
-        }
+        return !userName.isEmpty() && !password.isEmpty();
+    }
+
+
+    /**
+     * falta el initialize
+     */
+
+
+
 }

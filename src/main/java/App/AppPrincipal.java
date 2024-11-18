@@ -1,4 +1,5 @@
 package App;
+import Controllers.RegisterController;
 import Controllers.TaskController;
 import javafx.application.Application;
 import Controllers.InicioController;
@@ -92,6 +93,26 @@ public class AppPrincipal extends Application{
             e.printStackTrace();
         }
     }
+
+    public void mostrarVentanaRegistrarse(){
+        try{
+            FXMLLoader loader= new FXMLLoader();
+            loader.setLocation(AppPrincipal.class.getResource("RegisterView.fxml"));
+
+            AnchorPane rootLayout = loader.load();
+
+            RegisterController registerController= loader.getController();
+            registerController.setAplicacion(this);
+
+            Scene scene= new Scene(rootLayout);
+            changeWindow(scene);
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+
 
 
 

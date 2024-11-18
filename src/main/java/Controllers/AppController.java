@@ -9,12 +9,12 @@ public enum AppController {
     INSTANCE();
     private final Tool herramienta;
     private User usuario;
-    private Process proceso;
+    private Process process;
     private Activity actividad;
 
     AppController() {
         this.actividad = null;
-        this.proceso = null;
+        this.process = null;
         this.usuario = null;
         herramienta = new Tool("ADAN");
     }
@@ -22,11 +22,11 @@ public enum AppController {
     public Tool getHerramienta() {
         return herramienta;
     }
-    public void setProcesoActual(Process proceso){
-        this.proceso = proceso;
+    public void setProcesoActual(Process process){
+        this.process = process;
     }
     public Process getProcesoActual(){
-        return proceso;
+        return process;
     }
     public void setActividadActual(Activity actividad){
         this.actividad = actividad;

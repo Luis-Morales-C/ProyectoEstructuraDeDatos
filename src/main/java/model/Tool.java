@@ -142,6 +142,8 @@ public class Tool {
 
     }
 
+    public ArrayList<Process> getProcessList(){ return  processList;}
+
     private void initialistData(){
 
         User user1 = new User();

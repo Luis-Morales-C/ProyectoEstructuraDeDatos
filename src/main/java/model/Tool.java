@@ -1,5 +1,6 @@
 package Model;
 
+import Utils.Mail;
 import Utils.ShowMessage;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
@@ -7,6 +8,7 @@ import javafx.scene.control.ButtonType;
 import Exception.UserDoesntExistException;
 import Exception.UserAlreadyExistException;
 import Exception.ProcessAlreadyExist;
+import  static Controllers.AppController.INSTANCE;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -58,7 +60,7 @@ public class Tool {
 
     public void createUser(String userName, String password, UserType userType, String mail, NotificationType notificationType) {
         try {
-            addUser(new User(userType, userName, password,  notificationType, mail));
+            addUser(new User(userType, userName, password, notificationType, mail));
         } catch (UserAlreadyExistException e) {
             ShowMessage.mostrarMensaje("Error", "Error al crear el usuario", "El usuario ya existe");
         }
@@ -120,27 +122,25 @@ public class Tool {
         }
         return false;
     }
-    /**
-    public void notifyUser(String message) {
-        if ((INSTANCE.getCurretnUser().getTypeNotification().equals(NotificationType.MAIL))) ;
-        Mail mail = new Mail(INSTANCE.getCurrentUser().getMail(), "Notification", message);
-        mail.sendMail();
-    }else
-            Platform.runLater(()->{
 
+    public void notifyUser(String message){
+        if ((INSTANCE.getUsuarioActual().getNotificationType().equals(NotificationType.MAIL))) {
+            Mail mail = new Mail(INSTANCE.getUsuarioActual().getMail(), "Notificacion", message);
+            mail.sendMail();
+        }else
+            Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Éxito");
+                alert.setHeaderText(null);
+                alert.setContentText(message);
 
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    // Puedes agregar más acciones después de hacer clic en "OK"
+                }
+            });
 
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Éxito");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            //Se pueden agregar más acciones despues de hacer click en "OK"
-        }
-    }); **/
+    }
 
     private void initialistData(){
 
